@@ -28,5 +28,52 @@
 |**ARF6 ChIP-seq**|**Immunoprecipitated**|GSM1252254|SRR1019434|
 |**GFP ChIP-seq**|**Control**|GSM1252255|SRR1019435|
 
+Скачивание образцов осуществляется при помощи модуля **_fastq-dump_** пакета **_sra-tools_**. Данный инструмент доступен на вычислительном кластере ЦКП "Биоинформатика". Для скачивания данного эксперимента на кластер необходимо активировать окружение **students** при помощи следующей команды:
 
+`conda activate students`
 
+Затем необходимо переместиться в свою директорию:
+
+`cd ../../hpcws/dolgikh-students/*username*`
+
+В данной директории создать скрипт для скачивания **download.sh**, который должен иметь следующий вид:
+
+`
+#!/bin/bash
+#SBATCH --mem 5GB
+#SBATCH -p  common
+#SBATCH --cpus-per-task=4
+#SBATCH -n 1
+#SBATCH -t 48:00:00
+
+for i in SRR1019434 SRR1019435
+do
+fastq-dump ${i}
+done
+mv SRR1019434.fastq ARF6_ChIP-seq.fastq
+mv SRR1019435.fastq GFP_ChIP-seq.fastq
+`
+
+В результате работы данного скрипта в директории появятся необходимые файлы.
+
+## 1.3 Контроль качества и предобработка данных ChIP-seq
+
+Контроль качества осуществляется при помощи пакета **_FastQC_**. Для запуска программы FastQC с исселедуемыми нами образцами необходимо создать аналогичный скрипт **quality_control.sh**, имеющий следующий вид:
+
+`
+#!/bin/bash
+#SBATCH --mem 5GB
+#SBATCH -p  common
+#SBATCH --cpus-per-task=4
+#SBATCH -n 1
+#SBATCH -t 48:00:00
+
+for i in ARF6_ChIP-seq GFP_ChIP-seq
+do
+fastqc ${i}.fastq
+done
+`
+
+В результате работы данного скрипта в директории появятся **html-файлы**, содержащие стандартный отчет о качестве образцов.
+
+По итогам 
