@@ -60,7 +60,7 @@ mv SRR1019435.fastq GFP_ChIP-seq.fastq
 
 Контроль качества осуществляется при помощи пакета **_FastQC_**. Для запуска программы FastQC с исселедуемыми нами образцами необходимо создать аналогичный скрипт **quality_control.sh**, имеющий следующий вид:
 
-```console
+```shell
 #!/bin/bash
 #SBATCH --mem 5GB
 #SBATCH -p  common
