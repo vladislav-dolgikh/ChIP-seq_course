@@ -84,9 +84,9 @@ macs3 ARF6_ChIP-seq.bam
 
 macs3 callpeak –t ARF6_ChIP-seq.bam –c GFP_ChIP-seq.bam --nomodel --extsize <d> –g <genome_size>
 # -g значение эффективного размера генома 
-(g=2.7e9 для H. sapiens
-g= 1.87e9 для M. musculus
-g=1.19e8 для A. thaliana)
+# (g=2.7e9 для H. sapiens
+# g= 1.87e9 для M. musculus
+# g=1.19e8 для A. thaliana)
 
 ```
 ## 3.1 Задание
