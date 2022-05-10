@@ -12,7 +12,7 @@
 ```shell
 #!/bin/bash
 #SBATCH --mem 5GB
-#SBATCH -p  common
+#SBATCH -p common
 #SBATCH --cpus-per-task=4
 #SBATCH -n 1
 #SBATCH -t 48:00:00
@@ -28,22 +28,38 @@ bowtie2-build reference_genome.fasta reference_index ##if you use Bowtie2
 ```shell
 #!/bin/bash
 #SBATCH --mem 5GB
-#SBATCH -p  common
+#SBATCH -p common
 #SBATCH --cpus-per-task=4
 #SBATCH -n 1
 #SBATCH -t 48:00:00
 
 #Bowtie
-for i in control treat
+for i in ARF6_ChIP-seq GFP_ChIP-seq
 do
 	bowtie –S reference_index ${i}.fastq > ${i}.sam 	
 done
 
 #Bowtie2
-for i in control treat
+for i in ARF6_ChIP-seq GFP_ChIP-seq
 do
-	
 	bowtie2 [options] -x reference_index -U ${i}.fastq -S ${i}.sam 
+done
+```
+## 1.3 Преобразование текстовых SAM-файлов в бинарный формат BAM.
+
+Разработчики программы **_MACS3_**, осуществляющей поиск пиков, рекомендуют использовать в качестве входных данных выровненные прочтения в бинарном формате **bam**. Для преобразования **sam** в **bam** используется инструмент **_Samtools_**. Пример скрипта **sam_to_bam.sh**, осуществляющего подобное преобразование:
+
+```shell
+#!/bin/bash
+#SBATCH --mem 5GB
+#SBATCH -p common
+#SBATCH --cpus-per-task=4
+#SBATCH -n 1
+#SBATCH -t 48:00:00
+
+for i in ARF6_ChIP-seq GFP_ChIP-seq
+do 
+	samtools view -Sb ${i}.sam > ${i}.bam
 done
 ```
 
